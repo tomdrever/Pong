@@ -23,6 +23,8 @@ namespace Pong.Structure.Components
             Velocity = new Vector2(x, y);
         }
 
+        public VelocityComponent() : base() {}
+
         public override void Update()
         {
             if (!Entity.HasComponent<SpriteComponent>()) return;

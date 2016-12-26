@@ -25,19 +25,19 @@ namespace Pong.Structure.Components
                 }
             }
 
-            // Hit left wall - give point to computer 
+            // Hit left wall - give point to p2 
             if (sprite.X <= 0)
             {
                 var message = new Message("point_scored");
-                message.Arguments.Add("scorer", "computer");
+                message.Arguments.Add("scorer", "p2");
                 Blackboard.PostMessage(message);
             }
 
-            // Hit right wall - give point to player
+            // Hit right wall - give point to p1
             if ( sprite.Position.X >= Blackboard.WindowWidth - sprite.Width)
             {
                 var message = new Message("point_scored");
-                message.Arguments.Add("scorer", "player");
+                message.Arguments.Add("scorer", "p1");
                 Blackboard.PostMessage(message);
             }
             #endregion

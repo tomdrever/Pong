@@ -1,10 +1,18 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 
 namespace Pong.Structure.Components
-{
+{ 
     public class InputControlComponent : Component
     {
+        public Keys KeyUp { get; set; }
+        public Keys KeyDown { get; set; }
+
+        public InputControlComponent(Keys keyUp, Keys keyDown)
+        {
+            KeyUp = keyUp;
+            KeyDown = keyDown;
+        }
+
         public override void Update()
         {
             if (!Entity.HasComponent<SpriteComponent>()) return;
@@ -13,12 +21,12 @@ namespace Pong.Structure.Components
 
             var sprite = Entity.GetComponent<SpriteComponent>();
 
-            if (keyState.IsKeyDown(Keys.Up))
+            if (keyState.IsKeyDown(KeyUp))
             {
                 sprite.Y -= 8f;
             }
 
-            if (keyState.IsKeyDown(Keys.Down))
+            if (keyState.IsKeyDown(KeyDown))
             {
                 sprite.Y += 8f;
             }

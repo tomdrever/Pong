@@ -47,6 +47,7 @@
     <Compile Include="Structure\Components\ComputerControlComponent.cs" />
     <Compile Include="Structure\Components\InputControlComponent.cs" />
     <Compile Include="Structure\Components\SpriteComponent.cs" />
+    <Compile Include="Structure\Components\TextSpriteComponent.cs" />
     <Compile Include="Structure\Components\VelocityComponent.cs" />
     <Compile Include="Structure\Entity.cs" />
     <Compile Include="Structure\Messaging\Message.cs" />

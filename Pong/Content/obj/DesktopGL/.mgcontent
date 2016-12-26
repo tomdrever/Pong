@@ -7,5 +7,6 @@
     <File>G:/Projects/Pong/Pong/Content/ball.png</File>
     <File>G:/Projects/Pong/Pong/Content/paddle.png</File>
     <File>G:/Projects/Pong/Pong/Content/wall.png</File>
+    <File>G:/Projects/Pong/Pong/Content/score.spritefont</File>
   </SourceFiles>
 </SourceFileCollection>

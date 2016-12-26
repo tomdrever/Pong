@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace Pong.Structure.Components
+﻿namespace Pong.Structure.Components
 {
     public class ComputerControlComponent : Component
     {

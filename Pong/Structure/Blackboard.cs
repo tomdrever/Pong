@@ -20,6 +20,9 @@ namespace Pong.Structure
 
         public static List<Entity> Entities => _entities ?? (_entities = new List<Entity>());
 
+        public static int P1Score { get; set; }
+        public static int P2Score { get; set; }
+
         public static int WindowWidth { get; set; }
         public static int WindowHeight { get; set; }
         public static Vector2 Center => new Vector2(WindowWidth / 2f, WindowHeight / 2f);
