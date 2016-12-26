@@ -15,6 +15,7 @@ namespace Pong.Structure.Components
 
         public override void Update()
         {
+            if (!Entity.Active) return;
             if (!Entity.HasComponent<SpriteComponent>()) return;
 
             var keyState = Keyboard.GetState();

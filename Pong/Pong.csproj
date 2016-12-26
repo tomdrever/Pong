@@ -49,7 +49,9 @@
     <Compile Include="Structure\Components\SpriteComponent.cs" />
     <Compile Include="Structure\Components\TextSpriteComponent.cs" />
     <Compile Include="Structure\Components\VelocityComponent.cs" />
+    <Compile Include="Structure\DelayedActionBoard.cs" />
     <Compile Include="Structure\Entity.cs" />
+    <Compile Include="Structure\Messaging\Messageboard.cs" />
     <Compile Include="Structure\Messaging\Message.cs" />
     <Compile Include="Structure\Messaging\MessageListener.cs" />
   </ItemGroup>

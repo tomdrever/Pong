@@ -27,6 +27,7 @@ namespace Pong.Structure.Components
 
         public override void Update()
         {
+            if (!Entity.Active) return;
             if (!Entity.HasComponent<SpriteComponent>()) return;
 
             Entity.GetComponent<SpriteComponent>().Position += Velocity;

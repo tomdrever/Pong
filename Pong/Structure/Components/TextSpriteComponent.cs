@@ -34,6 +34,7 @@ namespace Pong.Structure.Components
 
         public override void Update()
         {
+            if (!Entity.Active) return;
             _spriteBatch.DrawString(Font, Text, Position, Color.White);
         }
     }

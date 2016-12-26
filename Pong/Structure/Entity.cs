@@ -10,11 +10,14 @@ namespace Pong.Structure
         public List<Component> Components { get; }
 
         public string Name { get; }
+        public bool Active { get; set; }
 
         public Entity(string name)
         {
             Name = name;
             Components = new List<Component>();
+
+            Active = true;
         }
 
         public void AddComponent(Component component)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,7 +14,7 @@ namespace Pong
     {
         private SpriteBatch _spriteBatch;
 
-        private Random _random;
+        private readonly Random _random;
 
         public PongGame()
         {
@@ -56,24 +57,63 @@ namespace Pong
                             throw new ArgumentException();
                     }
 
+                    // Hide ball
+                    var ball1 = Blackboard.GetEntity("ball");
+                    ball1.Active = false;
+                    ball1.GetComponent<VelocityComponent>().Velocity = new Vector2(
+                            10 * (_random.Next(0, 2) * 2 - 1),
+                            10 * (_random.Next(0, 2) * 2 - 1));
+
+                    #region Text
                     // Update text
                     var scoreTextComponent = Blackboard.GetEntity("text_score").GetComponent<TextSpriteComponent>();
                     scoreTextComponent.Text = $"{Blackboard.P1Score} | {Blackboard.P2Score}";
                     scoreTextComponent.Position = Blackboard.Center -
                                                   new Vector2(
                                                       scoreTextComponent.Font.MeasureString(scoreTextComponent.Text).X /
-                                                      2f, 180);
+                                                      2f, 240);
 
-                    // Reset ball
-                    var ball = Blackboard.GetEntity("ball");
-                    ball.GetComponent<VelocityComponent>().Velocity = new Vector2(
-                        10 * (_random.Next(0, 2) * 2 - 1),
-                        10 * (_random.Next(0, 2) * 2 - 1));
-                    ball.GetComponent<SpriteComponent>().Position = Blackboard.Center - new Vector2(16, 16);
+                    // Add "ready" text
+                    if (Blackboard.GetEntity("ready") == null)
+                    {
+                        var scoreFont = Content.Load<SpriteFont>("score");
+
+                        var readyText = new Entity("ready");
+                        var readyTextComponent = new TextSpriteComponent(_spriteBatch)
+                        {
+                            Font = scoreFont,
+                            Position = Blackboard.Center - scoreFont.MeasureString("Point!") / 2,
+                            Text = "Point!"
+                        };
+                        readyText.AddComponent(readyTextComponent);
+                        Blackboard.Entities.Add(readyText);
+                    }
+                    else
+                    {
+                        // Re-show existing "ready"
+                        Blackboard.GetEntity("ready").Active = true;
+                    }
+
+                    #endregion
+
+                    // In 300 ms, remove ready and add the ball
+                    DelayedActionboard.AddDelayedAction(() =>
+                    {
+                        // Hide "ready"
+                        Blackboard.GetEntity("ready").Active = false;
+
+                        // Reset ball
+                        var ball = Blackboard.GetEntity("ball");
+                        ball.Active = true;
+                        ball.GetComponent<SpriteComponent>().Position = Blackboard.Center - new Vector2(16, 16);
+                        ball.GetComponent<VelocityComponent>().Velocity = new Vector2(
+                            10 * (_random.Next(0, 2) * 2 - 1),
+                            10 * (_random.Next(0, 2) * 2 - 1));
+                    }, 600);
                 }
             };
 
-            Blackboard.AddMessageListener(onPointScoredListener);
+            Messageboard.AddMessageListener(onPointScoredListener);
 
             base.Initialize();
         }
@@ -141,7 +181,7 @@ namespace Pong
                 Position = new Vector2(Blackboard.WindowWidth - 32, Blackboard.WindowHeight / 2f - 80)
             });
 
-            p2Paddle.AddComponent(new InputControlComponent(Keys.Up, Keys.Down));
+            p2Paddle.AddComponent(new ComputerControlComponent());
 
             Blackboard.Entities.Add(p2Paddle);
             #endregion
@@ -153,7 +193,7 @@ namespace Pong
             scoreText.AddComponent(new TextSpriteComponent(_spriteBatch)
             {
                 Font = scoreFont,
-                Position = Blackboard.Center - new Vector2(scoreFont.MeasureString("0 | 0").X / 2f, 360 ),
+                Position = Blackboard.Center - new Vector2(scoreFont.MeasureString("0 | 0").X / 2f, 240 ),
                 Text = "0 | 0"
             });
 
@@ -166,13 +206,16 @@ namespace Pong
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            foreach (var entity in Blackboard.Entities)
+            // ToList - allows operating on all entities at start, regardless of what happens during the loop
+            foreach (var entity in Blackboard.Entities.ToList())
             {
                 foreach (var component in entity.Components)
                 {
                     if (component.ComponentType == Component.Type.Update) component.Update();
                 }
             }
+
+            DelayedActionboard.Tick(gameTime.ElapsedGameTime.Milliseconds);
 
             base.Update(gameTime);
         }

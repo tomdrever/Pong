@@ -36,6 +36,7 @@ namespace Pong.Structure.Components
 
         public override void Update()
         {
+            if (!Entity.Active) return;
             _spriteBatch.Draw(Texture, Position);
         }
     }

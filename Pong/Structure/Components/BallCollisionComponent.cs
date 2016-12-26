@@ -6,6 +6,7 @@ namespace Pong.Structure.Components
     {
         public override void Update()
         {
+            if (!Entity.Active) return;
             if (!Entity.HasComponent<VelocityComponent>() || !Entity.HasComponent<SpriteComponent>()) return;
 
             var velocity = Entity.GetComponent<VelocityComponent>();
@@ -30,7 +31,7 @@ namespace Pong.Structure.Components
             {
                 var message = new Message("point_scored");
                 message.Arguments.Add("scorer", "p2");
-                Blackboard.PostMessage(message);
+                Messageboard.PostMessage(message);
             }
 
             // Hit right wall - give point to p1
@@ -38,7 +39,7 @@ namespace Pong.Structure.Components
             {
                 var message = new Message("point_scored");
                 message.Arguments.Add("scorer", "p1");
-                Blackboard.PostMessage(message);
+                Messageboard.PostMessage(message);
             }
             #endregion
 

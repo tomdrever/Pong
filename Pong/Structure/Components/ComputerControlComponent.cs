@@ -4,6 +4,7 @@
     {
         public override void Update()
         {
+            if (!Entity.Active) return;
             if (!Entity.HasComponent<SpriteComponent>()) return;
 
             var sprite = Entity.GetComponent<SpriteComponent>();
